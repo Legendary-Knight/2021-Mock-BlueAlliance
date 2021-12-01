@@ -18,6 +18,7 @@ public class MoveAmgle extends CommandBase {
   public MoveAmgle(double angle) {
     this.angle=angle;
     pidController= new PIDController(kp, ki, kd);
+    addRequirements(RobotContainer.returnArm());
 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -27,7 +28,8 @@ public class MoveAmgle extends CommandBase {
   @Override
   protected void initialize() {}
     pidController.reset();
-    pidController.
+    pidController.SetTolerance(1);
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {}

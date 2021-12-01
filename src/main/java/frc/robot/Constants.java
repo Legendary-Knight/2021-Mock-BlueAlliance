@@ -29,4 +29,8 @@ public final class Constants {
         public static final int One = 1;
 
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ac7c644f011db45f30d5f88ac75ab58c9c8debf4
