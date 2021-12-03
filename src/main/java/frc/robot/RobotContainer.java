@@ -9,9 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.arm;
+import frc.robot.commands.MoveAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,7 +28,9 @@ public class RobotContainer {
 
   public static Joystick lJoy = new Joystick(Constants.lJoy);
   public static Joystick rJoy = new Joystick(Constants.rJoy);
+  public double ang1=0,ang2=0,ang3=0;
   public static arm a = new arm();
+  public static JoystickButton pos1,pos2,pos3;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,7 +44,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    pos1 = new JoystickButton(lJoy, Constants.lowButton);
+    pos2 = new JoystickButton(lJoy, Constants.midButton);
+    pos3 = new JoystickButton(lJoy, Constants.highButton);
+
+    pos1.toggleWhenPressed(new MoveAngle(ang1));
+    pos2.toggleWhenPressed(new MoveAngle(ang2));
+    pos3.toggleWhenPressed(new MoveAngle(ang3));
+  }
+
+    //pos1.toggleWhenPressed(new MoveAngle(ang1));
+    //pos2.toggleWhenPressed()
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -51,5 +65,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
+  }
+  public static arm getArm(){
+    return a;
   }
 }

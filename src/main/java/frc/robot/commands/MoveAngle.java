@@ -8,17 +8,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
-public class MoveAmgle extends CommandBase {
+public class MoveAngle extends CommandBase {
   //constants to be determined
   PIDController pidController;
-  private double kp=1;
-  private double ki=1;
-  private double kd=1;
+  private double kp=.1;
+  private double ki=.1;
+  private double kd=.1;
   double angle;
-  public MoveAmgle(double angle) {
+
+  public MoveAngle(double angle) {
     this.angle=angle;
     pidController= new PIDController(kp, ki, kd);
-    addRequirements(RobotContainer.returnArm());
+    addRequirements(RobotContainer.getArm());
 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -26,26 +27,33 @@ public class MoveAmgle extends CommandBase {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {}
+  public void initialize() {
     pidController.reset();
-    pidController.SetTolerance(1);
+    pidController.setTolerance(2.0);
+    RobotContainer.getArm().brakeArm(false);
+  }
+
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {}
+  public void execute() {
+    double speed = pidController.calculate(RobotContainer.getArm().getAAngle(), angle);
+    RobotContainer.getArm().setASpeed(speed);
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {}
+  public void end(boolean interrupted) {
+    RobotContainer.getArm().brakeArm(true);
+  }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {}
+
 }
